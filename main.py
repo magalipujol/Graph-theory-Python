@@ -6,7 +6,7 @@ edges = set([('a', 'b'), ('c', 'a'), ('d', 'b'), ('d', 'c')])
 
 
 class Graph:
-    def __init__(self, vertices, edges) -> None:
+    def __init__(self, vertices: set, edges: set) -> None:
         self.vertices = vertices
         self.edges = edges
         assert(self.edgesConsistency())
@@ -26,11 +26,39 @@ class Graph:
             if vertex == edge[1]:
                 neighbours.add(edge[0])
         return neighbours
+    
+    def addVertex(self, vertex):
+        self.vertices.add(vertex)
+    
+    def addEdge(self, edge):
+        assert(edge[0] not in vertices or edge[1] not in self.vertices)
+        self.edges.add(edge)
+    
+    def removeVertex(self, vertex):        
+        self.vertices.discard(vertex)
+        edgesToRemove = []
+        for edge in self.edges:
+            if edge[0] == vertex or edge[1] == vertex:
+                edgesToRemove.append(edge)     
+        for edge in edgesToRemove:
+            self.edges.remove(edge)
+               
+    def removeEdge(self, edge):
+        self.vertices.discard(edge)
 # %%
 graph = Graph(vertices, edges)
 
 # %%
 assert(graph.neighboursVertex('a') == {'b', 'c'})
 # %%
+print(graph.vertices)
+print(graph.edges)
+
+# %%
+graph.removeVertex('a')
+
+# %%
+print(graph.vertices)
+print(graph.edges)
 
 # %%
